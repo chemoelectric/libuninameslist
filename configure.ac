@@ -1,0 +1,55 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.69])
+AC_INIT([libuninameslist],[1.0.0],[fontforge-devel@lists.sourceforge.net])
+AC_CONFIG_SRCDIR([buildnameslist.c])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([config])
+AC_CANONICAL_BUILD
+AC_CANONICAL_HOST
+AC_CONFIG_HEADERS([config.h])
+AM_INIT_AUTOMAKE([1.12.2 foreign silent-rules -Wall -Werror])
+AM_MAINTAINER_MODE([enable])
+AC_USE_SYSTEM_EXTENSIONS
+
+# FIXME: Maybe make libuninameslist contain its own lt_dlopening mechanism.
+AM_PROG_AR
+LT_INIT([dlopen])
+
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PATH_PROGS([WGET],[wget],[wget])
+AC_PATH_PROGS([ICONV],[iconv],[iconv])
+
+
+# Checks for libraries.
+
+
+# Checks for header files.
+AC_CHECK_HEADERS([stdlib.h string.h])
+
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_SUBST([WARNING_CFLAGS],[])
+AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CFLAGS+=" -Wall"])
+AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CFLAGS+=" -Wextra"])
+AX_CHECK_COMPILE_FLAG([-Wno-sign-compare],[WARNING_CFLAGS+=" -Wno-sign-compare"])
+AX_CHECK_COMPILE_FLAG([-Wno-unused-parameter],[WARNING_CFLAGS+=" -Wno-unused-parameter"])
+
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([strdup strtol])
+
+
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([uninameslist.h:nameslist.h])
+AC_OUTPUT
