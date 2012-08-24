@@ -9,9 +9,11 @@ AC_CONFIG_AUX_DIR([config])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([1.12.2 foreign silent-rules -Wall -Werror])
+AM_INIT_AUTOMAKE([1.12.2 foreign silent-rules -Wall])
 AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.18.1])
 
 # FIXME: Maybe make libuninameslist contain its own lt_dlopening mechanism.
 AM_PROG_AR
@@ -25,6 +27,7 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AC_PROG_MKDIR_P
 AC_PATH_PROGS([ICONV],[iconv],[iconv])
 AC_PATH_PROGS([WGET],[wget],[wget])
 

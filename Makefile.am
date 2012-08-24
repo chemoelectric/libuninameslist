@@ -42,3 +42,7 @@ ListeDesNoms.txt:
 	$(WGET) "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt" -O ListeDesNoms.txt
 
 CLEANFILES = NamesList.latin1 NamesList.txt ListeDesNoms.txt buildnameslist
+
+SUBDIRS = po po
+
+EXTRA_DIST = config/config.rpath
