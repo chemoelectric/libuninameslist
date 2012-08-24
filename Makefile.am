@@ -4,6 +4,9 @@ UN_VERSION=0
 UN_REVISION=2
 UN_AGE=0
 
+pkgconfigdir = ${libdir}/pkgconfig
+nodist_pkgconfig_DATA = libuninameslist.pc libuninameslist-fr.pc
+
 lib_LTLIBRARIES = libuninameslist.la libuninameslist-fr.la
 EXTRA_PROGRAMS = buildnameslist
 include_HEADERS = uninameslist.h

@@ -51,5 +51,7 @@ AC_CHECK_FUNCS([strdup strtol])
 
 
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([libuninameslist.pc])
+AC_CONFIG_FILES([libuninameslist-fr.pc])
 AC_CONFIG_FILES([uninameslist.h:nameslist.h])
 AC_OUTPUT
