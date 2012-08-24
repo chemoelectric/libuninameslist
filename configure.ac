@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libuninameslist],[1.0.0],[fontforge-devel@lists.sourceforge.net])
+AC_INIT([libuninameslist],[1.0.0_beta1],[fontforge-devel@lists.sourceforge.net])
 AC_CONFIG_SRCDIR([buildnameslist.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -25,8 +25,8 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PATH_PROGS([WGET],[wget],[wget])
 AC_PATH_PROGS([ICONV],[iconv],[iconv])
+AC_PATH_PROGS([WGET],[wget],[wget])
 
 
 # Checks for libraries.

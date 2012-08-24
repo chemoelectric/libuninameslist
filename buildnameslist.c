@@ -134,6 +134,9 @@ static void dumpstring(char *str,FILE *out) {
 static void dumpinit(FILE *out, FILE *header, int is_fr) {
     int i;
 
+    fprintf( out, "#ifdef HAVE_CONFIG_H\n" );
+    fprintf( out, "#  include \"config.h\"\n" );
+    fprintf( out, "#endif /* HAVE_CONFIG_H */\n\n" );
     fprintf( out, "#include <stdio.h>\n" );
     fprintf( out, "#include \"nameslist.h\"\n\n" );
     fprintf( out, "static const struct unicode_nameannot nullarray[] = {\n" );

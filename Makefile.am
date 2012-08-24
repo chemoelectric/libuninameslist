@@ -24,6 +24,10 @@ nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
 
 rebuild-the-sources: buildnameslist NamesList.txt ListeDesNoms.txt
 	./buildnameslist
+	test "$(builddir)/nameslist.c" -ef "$(srcdir)/nameslist.c" || \
+		mv "$(builddir)/nameslist.c" "$(srcdir)/nameslist.c"
+	test "$(builddir)/nameslist-fr.c" -ef "$(srcdir)/nameslist-fr.c" || \
+		mv "$(builddir)/nameslist-fr.c" "$(srcdir)/nameslist-fr.c"
 
 NamesList.txt:
 	$(WGET) "http://www.unicode.org/Public/UNIDATA/NamesList.txt" -O NamesList.latin1
@@ -32,4 +36,4 @@ NamesList.txt:
 ListeDesNoms.txt:
 	$(WGET) "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt" -O ListeDesNoms.txt
 
-CLEANFILES = NamesList.latin1 NamesList.txt ListeDesNoms.txt
+CLEANFILES = NamesList.latin1 NamesList.txt ListeDesNoms.txt buildnameslist
