@@ -31,6 +31,8 @@ rebuild-the-sources: buildnameslist NamesList.txt ListeDesNoms.txt
 		mv "$(builddir)/nameslist.c" "$(srcdir)/nameslist.c"
 	test "$(builddir)/nameslist-fr.c" -ef "$(srcdir)/nameslist-fr.c" || \
 		mv "$(builddir)/nameslist-fr.c" "$(srcdir)/nameslist-fr.c"
+	test "$(builddir)/nameslist.h" -ef "$(srcdir)/nameslist.h" || \
+		mv "$(builddir)/nameslist.h" "$(srcdir)/nameslist.h"
 
 NamesList.txt:
 	$(WGET) "http://www.unicode.org/Public/UNIDATA/NamesList.txt" -O NamesList.latin1
