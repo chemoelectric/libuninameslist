@@ -34,9 +34,11 @@ rebuild-the-sources: buildnameslist NamesList.txt ListeDesNoms.txt
 	test "$(builddir)/nameslist.h" -ef "$(srcdir)/nameslist.h" || \
 		mv "$(builddir)/nameslist.h" "$(srcdir)/nameslist.h"
 
-NamesList.txt:
+NamesList.latin1:
 	$(WGET) "http://www.unicode.org/Public/UNIDATA/NamesList.txt" -O NamesList.latin1
-	$(ICONV) -f latin1 NamesList.latin1 -o NamesList.txt
+
+NamesList.txt: NamesList.latin1
+	$(ICONV) -f ISO-8859-1 NamesList.latin1 -t UTF-8 -o NamesList.txt
 
 ListeDesNoms.txt:
 	$(WGET) "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt" -O ListeDesNoms.txt
