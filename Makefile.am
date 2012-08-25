@@ -22,6 +22,7 @@ libuninameslist_fr_la_LDFLAGS = -no-undefined -version-info	\
 	$(UN_VERSION):$(UN_REVISION):$(UN_AGE)
 
 buildnameslist_SOURCES = buildnameslist.c
+buildnameslist_CFLAGS = $(WARNING_CFLAGS) $(EXTRA_WARNING_CFLAGS)
 
 nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
 
@@ -43,4 +44,5 @@ NamesList.txt: NamesList.latin1
 ListeDesNoms.txt:
 	$(WGET) "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt" -O ListeDesNoms.txt
 
-CLEANFILES = NamesList.latin1 NamesList.txt ListeDesNoms.txt buildnameslist
+DISTCLEANFILES = NamesList.latin1 NamesList.txt ListeDesNoms.txt	\
+	buildnameslist

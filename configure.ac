@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libuninameslist],[1.0.0_beta1],[fontforge-devel@lists.sourceforge.net])
+AC_INIT([libuninameslist],[1.0.0_beta2],[fontforge-devel@lists.sourceforge.net])
 AC_CONFIG_SRCDIR([buildnameslist.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -21,6 +21,7 @@ LT_INIT([dlopen])
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -38,10 +39,11 @@ AC_CHECK_HEADERS([stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_SUBST([WARNING_CFLAGS],[])
+AC_SUBST([EXTRA_WARNING_CFLAGS],[])
 AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CFLAGS+=" -Wall"])
 AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CFLAGS+=" -Wextra"])
-AX_CHECK_COMPILE_FLAG([-Wno-sign-compare],[WARNING_CFLAGS+=" -Wno-sign-compare"])
-AX_CHECK_COMPILE_FLAG([-Wno-unused-parameter],[WARNING_CFLAGS+=" -Wno-unused-parameter"])
+AX_CHECK_COMPILE_FLAG([-Wno-sign-compare],[EXTRA_WARNING_CFLAGS+=" -Wno-sign-compare"])
+AX_CHECK_COMPILE_FLAG([-Wno-unused-parameter],[EXTRA_WARNING_CFLAGS+=" -Wno-unused-parameter"])
 
 
 # Checks for library functions.
