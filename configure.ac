@@ -12,10 +12,8 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([1.12.2 foreign silent-rules -Wall -Werror])
 AM_MAINTAINER_MODE([enable])
 AC_USE_SYSTEM_EXTENSIONS
-
-# FIXME: Maybe make libuninameslist contain its own lt_dlopening mechanism.
 AM_PROG_AR
-LT_INIT([dlopen])
+LT_INIT
 
 
 # Checks for programs.
