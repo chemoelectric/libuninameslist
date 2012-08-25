@@ -8,8 +8,14 @@ pkgconfigdir = ${libdir}/pkgconfig
 nodist_pkgconfig_DATA = libuninameslist.pc libuninameslist-fr.pc
 
 lib_LTLIBRARIES = libuninameslist.la libuninameslist-fr.la
-EXTRA_PROGRAMS = buildnameslist
 include_HEADERS = uninameslist.h
+pkgdata_DATA = en.names-db fr.names-db
+
+EXTRA_PROGRAMS = buildnameslist
+EXTRA_SCRIPTS = make-names-db.awk
+
+#	FIXME: Is there a better approach to locale here?
+MAKE_NAMES_DB = $(ENV) LC_ALL=en_US.UTF-8 $(GAWK) -f $(srcdir)/make-names-db.awk
 
 AM_CFLAGS = $(WARNING_CFLAGS)
 
@@ -24,9 +30,11 @@ libuninameslist_fr_la_LDFLAGS = -no-undefined -version-info	\
 buildnameslist_SOURCES = buildnameslist.c
 buildnameslist_CFLAGS = $(WARNING_CFLAGS) $(EXTRA_WARNING_CFLAGS)
 
-nodist_EXTRA_DATA = NamesList.txt ListeDesNoms.txt
+nodist_EXTRA_DATA = NamesList.latin1 NamesList.txt ListeDesNoms.txt
 
-rebuild-the-sources: buildnameslist NamesList.txt ListeDesNoms.txt
+rebuild-the-sources: rebuild-the-traditional-sources rebuild-the-names-db
+
+rebuild-the-traditional-sources: buildnameslist NamesList.txt ListeDesNoms.txt
 	./buildnameslist
 	test "$(builddir)/nameslist.c" -ef "$(srcdir)/nameslist.c" || \
 		mv "$(builddir)/nameslist.c" "$(srcdir)/nameslist.c"
@@ -34,6 +42,10 @@ rebuild-the-sources: buildnameslist NamesList.txt ListeDesNoms.txt
 		mv "$(builddir)/nameslist-fr.c" "$(srcdir)/nameslist-fr.c"
 	test "$(builddir)/nameslist.h" -ef "$(srcdir)/nameslist.h" || \
 		mv "$(builddir)/nameslist.h" "$(srcdir)/nameslist.h"
+
+rebuild-the-names-db:
+	$(MAKE_NAMES_DB) NamesList.txt > $(srcdir)/en.names-db
+	$(MAKE_NAMES_DB) ListeDesNoms.txt > $(srcdir)/fr.names-db
 
 NamesList.latin1:
 	$(WGET) "http://www.unicode.org/Public/UNIDATA/NamesList.txt" -O NamesList.latin1

@@ -24,6 +24,8 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AC_PATH_PROGS([ENV],[env],[env])
+AC_PATH_PROGS([GAWK],[gawk],[gawk])
 AC_PATH_PROGS([ICONV],[iconv],[iconv])
 AC_PATH_PROGS([WGET],[wget],[wget])
 
