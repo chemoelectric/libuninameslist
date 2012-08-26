@@ -4,18 +4,28 @@ UN_VERSION=0
 UN_REVISION=2
 UN_AGE=0
 
-pkgconfigdir = ${libdir}/pkgconfig
-nodist_pkgconfig_DATA = libuninameslist.pc libuninameslist-fr.pc
+UNLU_VERSION=1
+UNLU_REVISION=0
+UNLU_AGE=0
 
-lib_LTLIBRARIES = libuninameslist.la libuninameslist-fr.la
-include_HEADERS = uninameslist.h
+NAMESLIST_EN = "http://www.unicode.org/Public/UNIDATA/NamesList.txt"
+NAMESLIST_EN_ENCODING = ISO-8859-1
+NAMESLIST_FR = "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt"
+NAMESLIST_FR_ENCODING = UTF-8
+
+pkgconfigdir = ${libdir}/pkgconfig
+nodist_pkgconfig_DATA = libuninameslist.pc libuninameslist-fr.pc	\
+	libuninameslookup.pc
+
+lib_LTLIBRARIES = libuninameslist.la libuninameslist-fr.la	\
+	libuninameslookup.la
+include_HEADERS = uninameslookup.h uninameslist.h
 pkgdata_DATA = en.names-db fr.names-db
 
 EXTRA_PROGRAMS = buildnameslist
 EXTRA_SCRIPTS = make-names-db.awk
 
-#	FIXME: Is there a better approach to locale here?
-MAKE_NAMES_DB = $(ENV) LC_ALL=en_US.UTF-8 $(GAWK) -f $(srcdir)/make-names-db.awk
+MAKE_NAMES_DB = $(ENV) LC_ALL=C $(GAWK) -f $(srcdir)/make-names-db.awk
 
 AM_CFLAGS = $(WARNING_CFLAGS)
 
@@ -26,6 +36,10 @@ libuninameslist_la_LDFLAGS = -no-undefined -version-info	\
 dist_libuninameslist_fr_la_SOURCES = nameslist-fr.c nameslist.h
 libuninameslist_fr_la_LDFLAGS = -no-undefined -version-info	\
 	$(UN_VERSION):$(UN_REVISION):$(UN_AGE)
+
+libuninameslookup_la_SOURCES = uninameslookup.c uninameslookup.h
+libuninameslookup_la_LDFLAGS = -no-undefined -version-info	\
+	$(UNLU_VERSION):$(UNLU_REVISION):$(UNLU_AGE)
 
 buildnameslist_SOURCES = buildnameslist.c
 buildnameslist_CFLAGS = $(WARNING_CFLAGS) $(EXTRA_WARNING_CFLAGS)
@@ -47,14 +61,18 @@ rebuild-the-names-db:
 	$(MAKE_NAMES_DB) NamesList.txt > $(srcdir)/en.names-db
 	$(MAKE_NAMES_DB) ListeDesNoms.txt > $(srcdir)/fr.names-db
 
-NamesList.latin1:
-	$(WGET) "http://www.unicode.org/Public/UNIDATA/NamesList.txt" -O NamesList.latin1
+NamesList.txt.download:
+	$(WGET) $(NAMESLIST_EN) -O NamesList.txt.download
 
-NamesList.txt: NamesList.latin1
-	$(ICONV) -f ISO-8859-1 NamesList.latin1 -t UTF-8 -o NamesList.txt
+NamesList.txt: NamesList.txt.download
+	$(ICONV) -f $(NAMESLIST_EN_ENCODING) NamesList.txt.download -t UTF-8 -o NamesList.txt
 
-ListeDesNoms.txt:
-	$(WGET) "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt" -O ListeDesNoms.txt
+ListeDesNoms.txt.download:
+	$(WGET) $(NAMESLIST_FR) -O ListeDesNoms.txt.download
 
-DISTCLEANFILES = NamesList.latin1 NamesList.txt ListeDesNoms.txt	\
-	buildnameslist
+ListeDesNoms.txt: ListeDesNoms.txt.download
+	$(ICONV) -f $(NAMESLIST_FR_ENCODING) ListeDesNoms.txt.download -t UTF-8 -o ListeDesNoms.txt
+
+MOSTLYCLEANFILES = buildnameslist
+DISTCLEANFILES = NamesList.txt.download NamesList.txt	\
+	ListeDesNoms.txt.download ListeDesNoms.txt

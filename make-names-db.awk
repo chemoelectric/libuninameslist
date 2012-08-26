@@ -3,9 +3,11 @@
 # This script uses GNU Awk features.
 
 BEGIN {
-    id_string = "libuninameslist"
+    # 31 bytes:  1234567890123456789012345678901
+    id_string = "libuninameslist names db       "
     db_version = 1
 
+    BINMODE = "rw"
     codepoint = -1
     codepoint_count = 0
 }
@@ -36,9 +38,9 @@ END {
     print_uint(db_version)
     print_uint(codepoint_count)
     print_codepoint_array(uniname)
-    name_offset = length(id_string) + 1 + 4*(2 + 3*codepoint_count)
-    annot_offset = print_offsets(uniname, name_offset)
-    print_offsets(uniannot, annot_offset)
+    annot_offset = print_offsets(uniname, 0)
+    string_section_size = print_offsets(uniannot, annot_offset)
+    print_uint(string_section_size)
     print_strings(uniname)
     print_strings(uniannot)
 }
@@ -72,9 +74,8 @@ function print_strings(some_unilist)
 function print_uint(n)
 {
     n = n + 0
-    byte0 = and(n, 0xff)
-    byte1 = and(rshift(n,8), 0xff)
-    byte2 = and(rshift(n,16), 0xff)
-    byte3 = and(rshift(n,24), 0xff)
-    printf("%c%c%c%c", byte0, byte1, byte2, byte3)
+    printf("%c", and(n, 255))
+    printf("%c", and(rshift(n,8), 255))
+    printf("%c", and(rshift(n,16), 255))
+    printf("%c", and(rshift(n,24), 255))
 }

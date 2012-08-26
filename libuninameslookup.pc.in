@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
+libdir=@libdir@
+includedir=@includedir@
+datarootdir=@datarootdir@
+mandir=@mandir@
+localedir=@localedir@
+
+Name: libuninameslookup
+Description: Unicode Annotations
+Version: @VERSION@
+Libs: -L${libdir} -luninameslookup
+Cflags: -I${includedir}
+
