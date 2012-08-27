@@ -1,3 +1,10 @@
+# FIXME: Include a test that the patches are complete -- that they
+# cover the entire annotation.
+
+# FIXME: Include a test that the patches do not overflow -- that they
+# cover only the annotation and nothing past it.
+
+
 import uninameslookup
 import random, string, sys
 

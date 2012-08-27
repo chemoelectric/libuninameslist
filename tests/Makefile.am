@@ -34,6 +34,16 @@ $(TESTSUITE): $(srcdir)/testsuite.at $(srcdir)/package.m4
 	$(AUTOTEST) -I '$(srcdir)' -o $@.tmp $@.at
 	mv $@.tmp $@
 
+noinst_PROGRAMS =
+
+noinst_PROGRAMS += c_create_delete_uninameslookup
+c_create_delete_uninameslookup_SOURCES = c_create_delete_uninameslookup.c
+
+noinst_PROGRAMS += cxx_create_delete_uninameslookup
+cxx_create_delete_uninameslookup_SOURCES = cxx_create_delete_uninameslookup.cxx
+
+AM_CPPFLAGS = -I$(top_srcdir)
+LDADD = $(top_builddir)/libuninameslookup.la
 
 EXTRA_DIST += import_uninameslookup.py				\
 	create_delete_uninameslookup.py patch_test.py
