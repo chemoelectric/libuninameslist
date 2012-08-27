@@ -3,30 +3,55 @@ AT_COPYRIGHT([Copyright (C) 2012 by Barry Schwartz])
 
 #--------------------------------------------------------------------------
 
+m4_defun([en_patch_banner],
+[
+AT_BANNER([  -- The patch tests for en.names-db will be skipped
+  -- unless NamesList.txt is in the top build directory.
+  -- It must be re-encoded from ISO-8859-1 to UTF-8.])
+])
+
+m4_defun([fr_patch_banner],
+[
+AT_BANNER([  -- The patch tests for fr.names-db will be skipped
+  -- unless ListeDesNoms.txt is in the top build directory.])
+])
+
+#--------------------------------------------------------------------------
+
 AT_BANNER([C tests])
 
 AT_SETUP([C create/delete uninameslookup: en.names-db])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/c_create_delete_uninameslookup "${abs_top_srcdir}/en.names-db"],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([C create/delete uninameslookup: fr.names-db])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/c_create_delete_uninameslookup "${abs_top_srcdir}/fr.names-db"],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([C open missing uninameslookup])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/c_create_delete_uninameslookup "------------i-do-not-exist------------"],
          [1],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([C open corrupted uninameslookup])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/c_create_delete_uninameslookup  "${abs_top_builddir}/Makefile"],
          [1],[ignore],[ignore])
+AT_CLEANUP
+
+en_patch_banner
+AT_SETUP([C patch test: en.names-db])
+AT_SKIP_IF([test ! -f "${abs_top_builddir}/NamesList.txt"])
+AT_CHECK(["${builddir}"/c_patch_test "${abs_top_srcdir}/en.names-db" "${abs_top_builddir}/NamesList.txt"],
+         [0],[ignore],[ignore])
+AT_CLEANUP
+
+fr_patch_banner
+AT_SETUP([C patch test: fr.names-db])
+AT_SKIP_IF([test ! -f "${abs_top_builddir}/ListeDesNoms.txt"])
+AT_CHECK(["${builddir}"/c_patch_test "${abs_top_srcdir}/fr.names-db" "${abs_top_builddir}/ListeDesNoms.txt"],
+         [0],[ignore],[ignore])
 AT_CLEANUP
 
 #--------------------------------------------------------------------------
@@ -34,27 +59,37 @@ AT_CLEANUP
 AT_BANNER([C++ tests])
 
 AT_SETUP([C++ create/delete uninameslookup: en.names-db])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/cxx_create_delete_uninameslookup "${abs_top_srcdir}/en.names-db"],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([C++ create/delete uninameslookup: fr.names-db])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/cxx_create_delete_uninameslookup "${abs_top_srcdir}/fr.names-db"],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([C++ open missing uninameslookup])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/cxx_create_delete_uninameslookup "------------i-do-not-exist------------"],
          [1],[ignore],[ignore])
 AT_CLEANUP
 
 AT_SETUP([C++ open corrupted uninameslookup])
-AT_SKIP_IF([${skip_python}])
 AT_CHECK(["${builddir}"/cxx_create_delete_uninameslookup  "${abs_top_builddir}/Makefile"],
          [1],[ignore],[ignore])
+AT_CLEANUP
+
+en_patch_banner
+AT_SETUP([C++ patch test: en.names-db])
+AT_SKIP_IF([test ! -f "${abs_top_builddir}/NamesList.txt"])
+AT_CHECK(["${builddir}"/cxx_patch_test "${abs_top_srcdir}/en.names-db" "${abs_top_builddir}/NamesList.txt"],
+         [0],[ignore],[ignore])
+AT_CLEANUP
+
+fr_patch_banner
+AT_SETUP([C++ patch test: fr.names-db])
+AT_SKIP_IF([test ! -f "${abs_top_builddir}/ListeDesNoms.txt"])
+AT_CHECK(["${builddir}"/cxx_patch_test "${abs_top_srcdir}/fr.names-db" "${abs_top_builddir}/ListeDesNoms.txt"],
+         [0],[ignore],[ignore])
 AT_CLEANUP
 
 #--------------------------------------------------------------------------
@@ -90,9 +125,7 @@ AT_CHECK([${PYTHON} "${srcdir}"/create_delete_uninameslookup.py "${abs_top_build
          [1],[ignore],[ignore])
 AT_CLEANUP
 
-AT_BANNER([  -- The patch tests for en.names-db will be skipped
-  -- unless NamesList.txt is in the top build directory.
-  -- It must be re-encoded from ISO-8859-1 to UTF-8.])
+en_patch_banner
 AT_SETUP([Python patch test: en.names-db])
 AT_SKIP_IF([${skip_python}])
 AT_SKIP_IF([test ! -f "${abs_top_builddir}/NamesList.txt"])
@@ -100,8 +133,7 @@ AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${abs_top_srcdir}/en.names-db" "$
          [0],[ignore],[ignore])
 AT_CLEANUP
 
-AT_BANNER([  -- The patch tests for fr.names-db will be skipped
-  -- unless ListeDesNoms.txt is in the top build directory.])
+fr_patch_banner
 AT_SETUP([Python patch test: fr.names-db])
 AT_SKIP_IF([${skip_python}])
 AT_SKIP_IF([test ! -f "${abs_top_builddir}/ListeDesNoms.txt"])

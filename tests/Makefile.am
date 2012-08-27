@@ -38,9 +38,13 @@ noinst_PROGRAMS =
 
 noinst_PROGRAMS += c_create_delete_uninameslookup
 c_create_delete_uninameslookup_SOURCES = c_create_delete_uninameslookup.c
-
 noinst_PROGRAMS += cxx_create_delete_uninameslookup
 cxx_create_delete_uninameslookup_SOURCES = cxx_create_delete_uninameslookup.cxx
+
+noinst_PROGRAMS += c_patch_test
+c_patch_test_SOURCES = c_patch_test.c
+noinst_PROGRAMS += cxx_patch_test
+cxx_patch_test_SOURCES = cxx_patch_test.cxx
 
 AM_CPPFLAGS = -I$(top_srcdir)
 LDADD = $(top_builddir)/libuninameslookup.la

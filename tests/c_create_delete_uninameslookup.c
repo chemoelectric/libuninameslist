@@ -10,7 +10,7 @@ main (int argc, char *argv[])
     {
       exit_code = 0;
       uninameslookup_names_db_close (db);
-    };
+    }
   return exit_code;
 }
 

@@ -13,7 +13,7 @@ main (int argc, char *argv[])
   catch (const char *e)
   {
     exit_code = 1;
-  };
+  }
   return exit_code;
 }
 
