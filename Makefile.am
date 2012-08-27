@@ -1,6 +1,8 @@
 ACLOCAL_AMFLAGS = -I m4
 
+if TESTSUITE
 SUBDIRS = . tests
+endif TESTSUITE
 
 #--------------------------------------------------------------------------
 

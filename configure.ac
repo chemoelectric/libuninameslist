@@ -16,6 +16,11 @@ AC_USE_SYSTEM_EXTENSIONS
 AM_PROG_AR
 LT_INIT
 
+AC_ARG_ENABLE([tests],
+   [AS_HELP_STRING([--disable-tests],[do not build the test suite])],
+   [],[enable_tests=yes])
+AM_CONDITIONAL([TESTSUITE],[test x"${enable_tests}" = xyes])
+
 
 # Checks for programs.
 AC_PROG_CXX
