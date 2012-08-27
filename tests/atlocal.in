@@ -11,7 +11,21 @@ abs_builddir="@abs_builddir@"
 abs_top_srcdir="@abs_top_srcdir@"
 abs_top_builddir="@abs_top_builddir@"
 
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+bindir="@bindir@"
+libdir="@libdir@"
+includedir="@includedir@"
+datarootdir="@datarootdir@"
+mandir="@mandir@"
+localedir="@localedir@"
+
+doing_installcheck="test x\"${1}\" = x\"AUTOTEST_PATH=@bindir@\""
+
 skip_python="test x@enable_python@ != xyes"
 PYTHON="@PYTHON@"
-PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
-
+if ${doing_installcheck}; then
+    :
+else
+    PYTHONPATH="@abs_top_builddir@/.libs:@abs_top_srcdir@/.libs:@abs_top_builddir@:@abs_top_srcdir@"
+fi
