@@ -35,7 +35,7 @@ extern "C"
 #endif
 
   /* A names db handle. */
-  typedef struct names___db *uninameslookup_names_db;
+  typedef struct uninameslookup_names___db *uninameslookup_names_db;
 
   /* Open a names db. */
   uninameslookup_names_db uninameslookup_names_db_open (const char *filename);
@@ -55,7 +55,44 @@ extern "C"
 }
 #endif
 
-#endif                          /* _UNINAMESLOOKUP_H */
+#ifdef __cplusplus
+
+class uninameslookup
+{
+private:
+
+  uninameslookup_names_db db;
+
+public:
+
+  inline uninameslookup (const char *filename)
+  {
+    db = uninameslookup_names_db_open (filename);
+    if (!db)
+      // FIXME: Is this what really should be thrown here? It may
+      // change in the future.
+      throw "uninameslookup constructor failed";
+  }
+
+  inline ~ uninameslookup ()
+  {
+    uninameslookup_names_db_close (db);
+  }
+
+  inline const char *name (unsigned int codepoint)
+  {
+    return uninameslookup_name (db, codepoint);
+  }
+
+  inline const char *annot (unsigned int codepoint)
+  {
+    return uninameslookup_annot (db, codepoint);
+  }
+};
+
+#endif /* __cplusplus */
+
+#endif /* _UNINAMESLOOKUP_H */
 
 /* local variables:    */
 /* c-file-style: "gnu" */

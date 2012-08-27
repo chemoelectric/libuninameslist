@@ -37,7 +37,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct names___db
+typedef struct uninameslookup_names___db
 {
   unsigned int version;
   unsigned int codepoint_count;
@@ -45,7 +45,7 @@ typedef struct names___db
   unsigned int *name_offsets;
   unsigned int *annot_offsets;
   char *strings;
-} names___db;
+} uninameslookup_names___db;
 
 static const char *names_db_id_string = "libuninameslist names db       ";
 
@@ -136,7 +136,9 @@ uninameslookup_names_db_open (const char *filename)
     {
       if (string_matches (f, names_db_id_string))
         {
-          handle = (uninameslookup_names_db) malloc (sizeof (names___db));
+          handle =
+            (uninameslookup_names_db)
+            malloc (sizeof (uninameslookup_names___db));
           if (handle != NULL)
             {
               handle->codepoints = NULL;

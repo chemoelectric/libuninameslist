@@ -30,6 +30,15 @@ AC_PATH_PROGS([GAWK],[gawk],[gawk])
 AC_PATH_PROGS([ICONV],[iconv],[iconv])
 AC_PATH_PROGS([WGET],[wget],[wget])
 
+AC_ARG_ENABLE([python],
+   [AS_HELP_STRING([--enable-python],[build Python bindings (requires SWIG)])],
+   [
+      AM_PATH_PYTHON
+      AX_PKG_SWIG([2.0.4],[],[AC_MSG_ERROR([SWIG is required to build the Python interface.])])
+      AX_SWIG_PYTHON
+   ])
+AM_CONDITIONAL([PYTHON_FFI],[test x"${enable_python}" = xyes])
+
 
 # Checks for libraries.
 
@@ -43,11 +52,13 @@ AC_HEADER_STDBOOL
 AC_TYPE_SIZE_T
 AC_SUBST([WARNING_CFLAGS],[])
 AC_SUBST([EXTRA_WARNING_CFLAGS],[])
+AC_SUBST([SWIG_PYTHON_WARNING_CFLAGS],[])
 AX_CHECK_COMPILE_FLAG([-Wall],[WARNING_CFLAGS+=" -Wall"])
 AX_CHECK_COMPILE_FLAG([-Wextra],[WARNING_CFLAGS+=" -Wextra"])
 AX_CHECK_COMPILE_FLAG([-Wno-sign-compare],[EXTRA_WARNING_CFLAGS+=" -Wno-sign-compare"])
 AX_CHECK_COMPILE_FLAG([-Wno-unused-parameter],[EXTRA_WARNING_CFLAGS+=" -Wno-unused-parameter"])
 AX_CHECK_COMPILE_FLAG([-Wno-unused-but-set-variable],[EXTRA_WARNING_CFLAGS+=" -Wno-unused-but-set-variable"])
+AX_CHECK_COMPILE_FLAG([-Wno-unused-but-set-variable],[SWIG_PYTHON_WARNING_CFLAGS+=" -Wno-unused-but-set-variable"])
 
 
 # Checks for library functions.
@@ -61,4 +72,5 @@ AC_CONFIG_FILES([libuninameslist.pc])
 AC_CONFIG_FILES([libuninameslist-fr.pc])
 AC_CONFIG_FILES([libuninameslookup.pc])
 AC_CONFIG_FILES([uninameslist.h:nameslist.h])
+AC_CONFIG_FILES([uninameslookup.i])
 AC_OUTPUT

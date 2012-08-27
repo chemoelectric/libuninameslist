@@ -1,5 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4
 
+#--------------------------------------------------------------------------
+
 UN_VERSION=0
 UN_REVISION=2
 UN_AGE=0
@@ -13,6 +15,8 @@ NAMESLIST_EN_ENCODING = ISO-8859-1
 NAMESLIST_FR = "http://hapax.qc.ca/ListeDesNoms-5.0.0.txt"
 NAMESLIST_FR_ENCODING = UTF-8
 
+#--------------------------------------------------------------------------
+
 pkgconfigdir = ${libdir}/pkgconfig
 nodist_pkgconfig_DATA = libuninameslist.pc libuninameslist-fr.pc	\
 	libuninameslookup.pc
@@ -20,7 +24,7 @@ nodist_pkgconfig_DATA = libuninameslist.pc libuninameslist-fr.pc	\
 lib_LTLIBRARIES = libuninameslist.la libuninameslist-fr.la	\
 	libuninameslookup.la
 include_HEADERS = uninameslookup.h uninameslist.h
-pkgdata_DATA = en.names-db fr.names-db
+dist_pkgdata_DATA = en.names-db fr.names-db
 
 EXTRA_PROGRAMS = buildnameslist
 EXTRA_SCRIPTS = make-names-db.awk
@@ -73,6 +77,35 @@ ListeDesNoms.txt.download:
 ListeDesNoms.txt: ListeDesNoms.txt.download
 	$(ICONV) -f $(NAMESLIST_FR_ENCODING) ListeDesNoms.txt.download -t UTF-8 -o ListeDesNoms.txt
 
-MOSTLYCLEANFILES = buildnameslist
+#--------------------------------------------------------------------------
+
+if PYTHON_FFI
+
+python_PYTHON = uninameslookup.py
+python_LTLIBRARIES = _uninameslookup.la
+
+_uninameslookup_la_SOURCES = uninameslookup_wrap.cxx uninameslookup.h
+_uninameslookup_la_CPPFLAGS = $(AX_SWIG_PYTHON_CPPFLAGS)
+_uninameslookup_la_CFLAGS = $(SWIG_PYTHON_WARNING_CFLAGS)
+_uninameslookup_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
+_uninameslookup_la_LIBADD = libuninameslookup.la
+_uninameslookup_la_LDFLAGS = -module -shared -avoid-version
+
+uninameslookup.py uninameslookup_wrap.cxx: stamp-pyffi
+	@if test ! -f $@; then rm -f stamp-pyffi; else :; fi
+	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
+
+stamp-pyffi: uninameslookup.i uninameslookup.h
+	$(SWIG) -Wall -Wextra -c++ $(AX_SWIG_PYTHON_OPT) -I$(srcdir) uninameslookup.i
+	@touch stamp-pyffi
+
+endif PYTHON_FFI
+
+#--------------------------------------------------------------------------
+
+MOSTLYCLEANFILES = buildnameslist uninameslookup.py	\
+	uninameslookup_wrap.cxx stamp-pyffi
 DISTCLEANFILES = NamesList.txt.download NamesList.txt	\
 	ListeDesNoms.txt.download ListeDesNoms.txt
+
+#--------------------------------------------------------------------------
