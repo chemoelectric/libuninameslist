@@ -6,6 +6,7 @@ AC_INIT([libuninameslist],[1.1.0_beta1],[fontforge-devel@lists.sourceforge.net])
 AC_CONFIG_SRCDIR([buildnameslist.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
+AC_CONFIG_TESTDIR([tests])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CONFIG_HEADERS([config.h])
@@ -38,6 +39,7 @@ AC_ARG_ENABLE([python],
       AX_SWIG_PYTHON
    ])
 AM_CONDITIONAL([PYTHON_FFI],[test x"${enable_python}" = xyes])
+AC_SUBST([enable_python])
 
 
 # Checks for libraries.
@@ -73,4 +75,5 @@ AC_CONFIG_FILES([libuninameslist-fr.pc])
 AC_CONFIG_FILES([libuninameslookup.pc])
 AC_CONFIG_FILES([uninameslist.h:nameslist.h])
 AC_CONFIG_FILES([uninameslookup.i])
+AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_OUTPUT

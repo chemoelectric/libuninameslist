@@ -34,4 +34,6 @@
 %ignore uninameslookup_name;
 %ignore uninameslookup_annot;
 
+%catches(const char *) uninameslookup::uninameslookup;
+
 %include <uninameslookup.h>

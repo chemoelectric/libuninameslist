@@ -1,5 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4
 
+SUBDIRS = tests
+
 #--------------------------------------------------------------------------
 
 UN_VERSION=0
@@ -91,6 +93,9 @@ _uninameslookup_la_LIBS = $(AX_SWIG_PYTHON_LIBS)
 _uninameslookup_la_LIBADD = libuninameslookup.la
 _uninameslookup_la_LDFLAGS = -module -shared -avoid-version
 
+# This ugly code exists so SWIG gets run if _either one_ of
+# uninameslookup.py and uninameslookup_wrap.cxx is out of date or
+# missing.
 uninameslookup.py uninameslookup_wrap.cxx: stamp-pyffi
 	@if test ! -f $@; then rm -f stamp-pyffi; else :; fi
 	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) stamp-pyffi; else :; fi
@@ -103,8 +108,9 @@ endif PYTHON_FFI
 
 #--------------------------------------------------------------------------
 
-MOSTLYCLEANFILES = buildnameslist uninameslookup.py	\
-	uninameslookup_wrap.cxx stamp-pyffi
+MOSTLYCLEANFILES = buildnameslist uninameslookup.py					\
+	uninameslookup.pyc uninameslookup.pyo uninameslookup_wrap.cxx	\
+	stamp-pyffi
 DISTCLEANFILES = NamesList.txt.download NamesList.txt	\
 	ListeDesNoms.txt.download ListeDesNoms.txt
 

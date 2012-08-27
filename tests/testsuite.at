@@ -1,0 +1,45 @@
+AT_INIT
+AT_COPYRIGHT([Copyright (C) 2012 by Barry Schwartz])
+
+AT_BANNER([Python tests])
+
+AT_SETUP([import uninameslookup])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([(${PYTHON} "${srcdir}"/import_uninameslookup.py)],[0],[ignore],[ignore])
+AT_CLEANUP
+
+AT_SETUP([create/delete uninameslookup: en.names-db])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([(${PYTHON} "${srcdir}"/create_delete_uninameslookup.py "${top_srcdir}/en.names-db")],
+         [0],[ignore],[ignore])
+AT_CLEANUP
+
+AT_SETUP([create/delete uninameslookup: fr.names-db])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([(${PYTHON} "${srcdir}"/create_delete_uninameslookup.py "${top_srcdir}/fr.names-db")],
+         [0],[ignore],[ignore])
+AT_CLEANUP
+
+AT_SETUP([open missing uninameslookup])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([(${PYTHON} "${srcdir}"/create_delete_uninameslookup.py "${builddir}/------------i-do-not-exist------------")],
+         [1],[ignore],[ignore])
+AT_CLEANUP
+
+AT_SETUP([open corrupted uninameslookup])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([(${PYTHON} "${srcdir}"/create_delete_uninameslookup.py "${builddir}/Makefile")],
+         [1],[ignore],[ignore])
+AT_CLEANUP
+
+AT_SETUP([patch test: en.names-db])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${top_srcdir}/en.names-db"],
+         [0],[ignore],[ignore])
+AT_CLEANUP
+
+AT_SETUP([patch test: fr.names-db])
+AT_SKIP_IF([${skip_python}])
+AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${top_srcdir}/fr.names-db"],
+         [0],[ignore],[ignore])
+AT_CLEANUP

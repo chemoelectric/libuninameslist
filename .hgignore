@@ -34,6 +34,9 @@ Makefile
 Makefile.in
 .libs
 .deps
+tests/package.m4
+tests/testsuite
+
 
 syntax: regexp
 
