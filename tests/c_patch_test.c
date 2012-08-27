@@ -10,12 +10,12 @@
 #include <string.h>
 
 static char *
-make_patch(uninameslookup_names_db db, unsigned int codepoint)
+make_patch (uninameslookup_names_db db, unsigned int codepoint)
 {
   char *patch = NULL;
-  const char *name = uninameslookup_name(db, codepoint);
-  const char *annot = uninameslookup_annot(db, codepoint);
-  if (name != NULL && annot != NULL) 
+  const char *name = uninameslookup_name (db, codepoint);
+  const char *annot = uninameslookup_annot (db, codepoint);
+  if (name != NULL && annot != NULL)
     {
       patch = (char *) malloc (strlen (name) + strlen (annot) + 100);
       (void) sprintf (patch, "%04X\t%s\n%s", codepoint, name, annot);

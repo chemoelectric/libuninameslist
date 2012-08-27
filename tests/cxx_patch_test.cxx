@@ -10,12 +10,12 @@
 #include <string.h>
 
 static char *
-make_patch(uninameslookup &db, unsigned int codepoint)
+make_patch (uninameslookup & db, unsigned int codepoint)
 {
   char *patch = NULL;
-  const char *name = db.name(codepoint);
-  const char *annot = db.annot(codepoint);
-  if (name != NULL && annot != NULL) 
+  const char *name = db.name (codepoint);
+  const char *annot = db.annot (codepoint);
+  if (name != NULL && annot != NULL)
     {
       patch = (char *) malloc (strlen (name) + strlen (annot) + 100);
       (void) sprintf (patch, "%04X\t%s\n%s", codepoint, name, annot);
@@ -45,21 +45,21 @@ main (int argc, char *argv[])
 
   // Test the codepoints up to 0x10FFFF.
   for (int codepoint = 0; codepoint <= 0x10FFFF; codepoint++)
-      {
-          char *patch = make_patch (db, codepoint);
-          if (patch != NULL)
-              {
-                  if (strstr (nameslist, patch) == NULL)
-                      {
-                          (void) printf ("Failure: codepoint = %X\n", codepoint);
-                          failure_count++;
-                      }
-                  free (patch);
-              }
-      }
+    {
+      char *patch = make_patch (db, codepoint);
+      if (patch != NULL)
+        {
+          if (strstr (nameslist, patch) == NULL)
+            {
+              (void) printf ("Failure: codepoint = %X\n", codepoint);
+              failure_count++;
+            }
+          free (patch);
+        }
+    }
 
   if (failure_count == 0)
-      exit_code = 0;
+    exit_code = 0;
 
   return exit_code;
 }
