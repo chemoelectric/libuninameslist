@@ -23,10 +23,10 @@ failure_count = 0
 # Test the codepoints up to 0x10FFFF.
 codepoint = 0
 while codepoint <= 0x10FFFF:
-    #    print codepoint
     patch = make_patch(db, codepoint)
     if patch is not None:
         if nameslist.find(patch) < 0:
+            print("Failure: codepoint = " + str(codepoint))
             failure_count += 1
     codepoint += 1
 
@@ -38,6 +38,7 @@ while i <= random_codepoint_count:
     patch = make_patch(db, codepoint)
     if patch is not None:
         if nameslist.find(patch) < 0:
+            print("Failure: codepoint = " + str(codepoint))
             failure_count += 1
     i += 1
 

@@ -32,20 +32,21 @@ AT_CHECK([${PYTHON} "${srcdir}"/create_delete_uninameslookup.py "${abs_top_build
          [1],[ignore],[ignore])
 AT_CLEANUP
 
-# The patch test for en.names-db requires that NamesList.txt be in the
-# build directory.
+AT_BANNER([  -- The patch test for en.names-db will be skipped
+  -- unless NamesList.txt is in the top build directory.
+  -- It must be re-encoded from ISO-8859-1 to UTF-8.])
 AT_SETUP([patch test: en.names-db])
 AT_SKIP_IF([${skip_python}])
 AT_SKIP_IF([test ! -f "${abs_top_builddir}/NamesList.txt"])
-AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${abs_top_srcdir}/en.names-db" "${abs_top_builddir}/NamesList.txt" 1000000],
+AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${abs_top_srcdir}/en.names-db" "${abs_top_builddir}/NamesList.txt" 100000],
          [0],[ignore],[ignore])
 AT_CLEANUP
 
-# The patch test for fr.names-db requires that ListeDesNoms.txt be in
-# the build directory.
+AT_BANNER([  -- The patch test for fr.names-db will be skipped
+  -- unless ListeDesNoms.txt is in the top build directory.])
 AT_SETUP([patch test: fr.names-db])
 AT_SKIP_IF([${skip_python}])
 AT_SKIP_IF([test ! -f "${abs_top_builddir}/ListeDesNoms.txt"])
-AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${abs_top_srcdir}/fr.names-db" "${abs_top_builddir}/ListeDesNoms.txt" 1000000],
+AT_CHECK([${PYTHON} "${srcdir}"/patch_test.py "${abs_top_srcdir}/fr.names-db" "${abs_top_builddir}/ListeDesNoms.txt" 100000],
          [0],[ignore],[ignore])
 AT_CLEANUP
